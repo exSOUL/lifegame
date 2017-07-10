@@ -8,6 +8,8 @@ class Lifegame
 
   def lifegame!(cell_init)
     cell_init.times do
+      cell = Cell.new(rand(x), rand(y))
+      @Board.cell_set(cell)
     end
     loop do
       next_gen!
@@ -19,7 +21,7 @@ class Lifegame
   def next_gen!
     @generation += 1
     cells.each do |cell|
-      cell.next_gen!
+      cell_next_gen!(cell)
     end
   end
 
@@ -27,6 +29,28 @@ class Lifegame
     @board.cells
   end
 
+  def cell_next_gen!(cell)
+    around_cell_count = 0
+    x = cell.coodinate[:x]
+    y = cell.coodinate[:y]
+
+    around_cell_count += @board.cell_exist?(x+1,y) ? 1 : 0
+    around_cell_count += @board.cell_exist?(x-1,y) ? 1 : 0
+    around_cell_count += @board.cell_exist?(x,y+1) ? 1 : 0
+    around_cell_count += @board.cell_exist?(x,y-1) ? 1 : 0
+    around_cell_count += @board.cell_exist?(x+1,y+1) ? 1 : 0
+    around_cell_count += @board.cell_exist?(x-1,y-1) ? 1 : 0
+    around_cell_count += @board.cell_exist?(x-1,y+1) ? 1 : 0
+    around_cell_count += @board.cell_exist?(x+1,y-1) ? 1 : 0
+    if around_cell_count < 2
+      ## cell is dead
+    elsif around_cell_count <= 3
+      ## cell is alive
+      @board.cell_set(cell)
+    else
+      ## cell is dead
+    end
+  end
 end
 
 class Cell
@@ -42,8 +66,13 @@ class Cell
   end
 
   def next_gen!
+    dead_or_alive!
+  end
+
+  def dead_or_alive!
 
   end
+
 
 end
 
