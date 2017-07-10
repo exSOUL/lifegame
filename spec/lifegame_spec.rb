@@ -51,7 +51,7 @@ describe Board do
   end
 
   it 'その座標に生きているCellがある' do
-    expect(board.at_cell?(0, 0)).to eq false
+    expect(board.cell_exist?(0, 0)).to eq false
   end
 
 end
