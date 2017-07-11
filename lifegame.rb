@@ -1,26 +1,28 @@
 class Lifegame
-  attr_reader :generation, :board
+  attr_reader :generation, :board, :x, :y
 
   def initialize(x, y)
     @generation = 0
     @board = Board.new(x, y)
+    @x = x
+    @y = y
   end
 
   def lifegame!(cell_init)
     cell_init.times do
-      cell = Cell.new(rand(x), rand(y))
-      @Board.cell_set(cell)
+      cell = Cell.new(rand(@x), rand(@y))
+      @board.cell_set(cell)
     end
     loop do
       next_gen!
-      @Board.display
+      p @Board.display
       sleep 1
     end
   end
 
   def next_gen!
     @generation += 1
-    cells.each do |cell|
+    cells.each do |key, cell|
       cell_next_gen!(cell)
     end
   end
@@ -98,7 +100,7 @@ class Board
   end
 
   def cell_set(cell)
-    @cells[[cell.x, cell.y]] = cell
+    @cells[[x, y]] = cell
   end
 
 end
