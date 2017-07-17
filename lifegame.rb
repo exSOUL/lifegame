@@ -1,3 +1,7 @@
+require 'gosu'
+## Gosu::Window.new(200, 150); w.caption = "It works!"; w.show'
+##  https://github.com/gosu/gosu/wiki/Getting-Started-on-OS-X
+
 class Lifegame
   attr_reader :generation, :board, :x, :y
 
