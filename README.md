@@ -1,0 +1,3 @@
+# lifegame
+rspecでのTDD練習のためのLifegame
+とりあえず動くところまでは作る
