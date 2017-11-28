@@ -2,24 +2,34 @@ require 'gosu'
 ## Gosu::Window.new(200, 150); w.caption = "It works!"; w.show'
 ##  https://github.com/gosu/gosu/wiki/Getting-Started-on-OS-X
 
-class Lifegame
+class Lifegame < Gosu::Window
   attr_reader :generation, :board, :x, :y
 
+  ## 初期化処理
+  ## 世代やボード、ボードの広さ(x,y)
   def initialize(x, y)
+    Gosu::Color.argb(0xff_ffffff)
     @generation = 0
     @board = Board.new(x, y)
     @x = x
     @y = y
+    @windows = super(x*10, y*10)
+    @windows.caption = "Lifegame"
+    @font = Gosu::Font.new(14)
+    @img = Gosu::Image.new("./white.png", :tileable => true)
   end
 
   def lifegame!(cell_init)
+    ## @img.draw(0, 0, 100)
+    @windows.show()
     cell_init.times do
       cell = Cell.new(rand(@x), rand(@y))
       @board.cell_set(cell)
+      @font.draw("*",cell.coodinate[:x]*5 , cell.coodinate[:y]*5, 100, 1, 1)
     end
     loop do
-      next_gen!
       p @Board.display
+      next_gen!
       sleep 1
     end
   end
@@ -48,6 +58,7 @@ class Lifegame
     around_cell_count += @board.cell_exist?(x-1,y-1) ? 1 : 0
     around_cell_count += @board.cell_exist?(x-1,y+1) ? 1 : 0
     around_cell_count += @board.cell_exist?(x+1,y-1) ? 1 : 0
+
     if around_cell_count < 2
       ## cell is dead
     elsif around_cell_count <= 3
